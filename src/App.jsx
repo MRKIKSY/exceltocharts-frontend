@@ -22,7 +22,7 @@ function App() {
     setFileName(file.name);
 
     try {
-      const res = await axios.post('https://your-backend.onrender.com/upload', formData);
+      const res = await axios.post('https://excel-to-charts-2.onrender.com/upload', formData);
       setExcelData(res.data);
     } catch (err) {
       alert('Upload failed. Check server status.');
