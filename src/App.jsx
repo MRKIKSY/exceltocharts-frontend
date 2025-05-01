@@ -16,7 +16,7 @@ function App() {
     const formData = new FormData();
     formData.append('file', file);
 
-    const res = await axios.post('https://excel-to-charts-2.onrender.com/upload', formData);
+    const res = await axios.post('http://localhost:5000/upload', formData);
     setExcelData(res.data);
   };
 
@@ -32,40 +32,52 @@ function App() {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '1rem' }}>
-        Samuel Excel to Charts Converter
-      </h1>
+    <div className="container py-5">
+      <h1 className="text-center mb-4">Samuel Excel to Charts Converter</h1>
 
-      <h2>Upload Excel File</h2>
-      <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
+      <div className="mb-3">
+        <label className="form-label">Upload Excel File</label>
+        <input type="file" accept=".xlsx, .xls" className="form-control" onChange={handleFileUpload} />
+      </div>
 
       {excelData.length > 0 && (
         <>
-          <div style={{ marginTop: '1rem' }}>
-            <label>Labels:</label>
-            <select onChange={(e) => setLabelsColumn(e.target.value)}>
-              <option value="">-- Select Column --</option>
-              {columns.map(col => <option key={col} value={col}>{col}</option>)}
-            </select>
+          <div className="row g-3 align-items-center mt-4">
+            <div className="col-md-4">
+              <label className="form-label">Labels</label>
+              <select className="form-select" onChange={(e) => setLabelsColumn(e.target.value)}>
+                <option value="">-- Select Column --</option>
+                {columns.map(col => (
+                  <option key={col} value={col}>{col}</option>
+                ))}
+              </select>
+            </div>
 
-            <label style={{ marginLeft: '1rem' }}>Values:</label>
-            <select onChange={(e) => setValuesColumn(e.target.value)}>
-              <option value="">-- Select Column --</option>
-              {columns.map(col => <option key={col} value={col}>{col}</option>)}
-            </select>
+            <div className="col-md-4">
+              <label className="form-label">Values</label>
+              <select className="form-select" onChange={(e) => setValuesColumn(e.target.value)}>
+                <option value="">-- Select Column --</option>
+                {columns.map(col => (
+                  <option key={col} value={col}>{col}</option>
+                ))}
+              </select>
+            </div>
 
-            <label style={{ marginLeft: '1rem' }}>Chart Type:</label>
-            <select onChange={(e) => setChartType(e.target.value)}>
-              <option value="bar">Bar</option>
-              <option value="pie">Pie</option>
-            </select>
+            <div className="col-md-4">
+              <label className="form-label">Chart Type</label>
+              <select className="form-select" onChange={(e) => setChartType(e.target.value)}>
+                <option value="bar">Bar</option>
+                <option value="pie">Pie</option>
+              </select>
+            </div>
           </div>
 
           {labelsColumn && valuesColumn && (
-            <div style={{ maxWidth: 600, marginTop: '2rem' }}>
-              {chartType === 'bar' && <Bar data={chartData} />}
-              {chartType === 'pie' && <Pie data={chartData} />}
+            <div className="mt-5 d-flex justify-content-center">
+              <div style={{ width: '100%', maxWidth: 600 }}>
+                {chartType === 'bar' && <Bar data={chartData} />}
+                {chartType === 'pie' && <Pie data={chartData} />}
+              </div>
             </div>
           )}
         </>
